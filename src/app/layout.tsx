@@ -1,7 +1,8 @@
 import React from "react";
 import LayoutRecoil from "./layout.recoil";
-import Providers from "@/styles/ThemeProvider";
+import StyleProviders from "@/styles/ThemeProvider";
 import GlobalStyles from "@/styles/GlobalStyles";
+import { MockProvider } from "@/mock/MockProvider";
 
 export const metadata = {
   title: "myfair front pre-course",
@@ -17,9 +18,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <GlobalStyles />
-        <Providers>
-          <LayoutRecoil>{children}</LayoutRecoil>
-        </Providers>
+        <StyleProviders>
+          <MockProvider>
+            <LayoutRecoil>{children}</LayoutRecoil>
+          </MockProvider>
+        </StyleProviders>
       </body>
     </html>
   );
