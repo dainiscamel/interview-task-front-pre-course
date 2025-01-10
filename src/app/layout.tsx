@@ -1,5 +1,7 @@
 import React from "react";
 import LayoutRecoil from "./layout.recoil";
+import Providers from "@/styles/ThemeProvider";
+import GlobalStyles from "@/styles/GlobalStyles";
 
 export const metadata = {
   title: "myfair front pre-course",
@@ -14,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <LayoutRecoil>{children}</LayoutRecoil>
+        <GlobalStyles />
+        <Providers>
+          <LayoutRecoil>{children}</LayoutRecoil>
+        </Providers>
       </body>
     </html>
   );
