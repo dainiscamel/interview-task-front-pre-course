@@ -42,6 +42,19 @@ export const createTodo = async (todo: ToDoDto) => {
   };
 };
 
+export const updateTodo = async (id: number, todo: Partial<ToDoDto>) => {
+  const response = await TodoApi(getTodoRoute(id), {
+    method: "PATCH",
+    body: JSON.stringify(todo),
+  });
+
+  const { data } = await response.json();
+  return {
+    ok: response.ok,
+    data,
+  };
+};
+
 export const deleteTodo = async (id: number) => {
   const response = await TodoApi(getTodoRoute(id), {
     method: "DELETE",

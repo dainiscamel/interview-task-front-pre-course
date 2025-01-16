@@ -1,13 +1,13 @@
-import { createTodo, getTodosRoute } from "@/services/todos";
-import { ToDoDto } from "@/types/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateTodo } from "@/services/todos";
+import { ToDoDto } from "@/types/api";
 
-export const useCreateTodo = () => {
+export const useUpdateTodo = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: [getTodosRoute()],
-    mutationFn: (payload: ToDoDto) => createTodo(payload),
+    mutationFn: ({ id, todo }: { id: number; todo: Partial<ToDoDto> }) =>
+      updateTodo(id, todo),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },

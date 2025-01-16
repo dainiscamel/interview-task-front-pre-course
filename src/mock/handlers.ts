@@ -48,6 +48,27 @@ export const handlers = [
       apiWrapper<ToDo | undefined>(getToDo(Number(params.id)))
     );
   }),
+  http.patch<PathParams<"id">, Partial<ToDoRequest>>(
+    "/api/todos/:id",
+    async ({ params, request }) => {
+      const todos: ToDo[] = fetchToDos();
+      const payload = await request.json();
+      const id = Number(params.id);
+
+      const index = todos.findIndex((todo) => todo.id === id);
+      if (index < 0) {
+        return HttpResponse.json(apiWrapper<void>(undefined, 404, "Not Found"));
+      }
+
+      todos[index] = {
+        ...todos[index],
+        ...payload,
+      };
+
+      setToDos(todos);
+      return HttpResponse.json(apiWrapper<ToDo>(todos[index]));
+    }
+  ),
   http.delete<PathParams<"id">>("/api/todos/:id", async ({ params }) => {
     const todos: ToDo[] = fetchToDos();
     const index = todos.findIndex((todo) => todo.id === Number(params.id));
