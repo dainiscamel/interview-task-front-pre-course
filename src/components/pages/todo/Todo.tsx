@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import { useState } from "react";
 import Checkbox from "@/components/CheckBox/CheckBox";
 import Image from "next/image";
+import { ToDo } from "@/types/todo";
 
 const Container = styled.div`
   display: flex;
@@ -32,27 +33,21 @@ const DeleteButton = styled.button<{ $isVisible: boolean }>`
 `;
 
 interface TodoProps {
-  content: string;
+  todo: ToDo;
   onDelete: () => void;
   onToggle: () => void;
 }
 
-const Todo = ({ content, onDelete, onToggle }: TodoProps) => {
-  const [isChecked, setIsChecked] = useState(false);
+const Todo = ({ todo, onDelete, onToggle }: TodoProps) => {
   const [isHovered, setIsHovered] = useState(false);
-
-  const handleToggle = () => {
-    setIsChecked(!isChecked);
-    onToggle();
-  };
 
   return (
     <Container
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Checkbox checked={isChecked} onChange={handleToggle} />
-      <TodoContent>{content}</TodoContent>
+      <Checkbox checked={todo.isCompleted} onChange={onToggle} />
+      <TodoContent>{todo.content}</TodoContent>
       <DeleteButton type="button" onClick={onDelete} $isVisible={isHovered}>
         <Image src="/icons/Close.svg" alt="할 일 삭제" width={14} height={14} />
       </DeleteButton>

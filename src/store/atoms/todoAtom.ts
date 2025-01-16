@@ -5,7 +5,13 @@ export const todoState = atom<"All" | "To Do" | "Done">({
   default: "All",
 });
 
-export const todoCountState = atom<number>({
-  key: "todoCountState",
-  default: 0,
+interface Todo {
+  id: number;
+  content: string;
+  isCompleted: boolean;
+}
+
+export const todosState = atom<Todo[]>({
+  key: "todosState",
+  default: [],
 });

@@ -1,4 +1,8 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { todosState } from "@/store/atoms/todoAtom";
+import { ToDo } from "@/types/todo";
 
 const Container = styled.div`
   margin-bottom: 24px;
@@ -17,9 +21,42 @@ const AddInput = styled.input`
 `;
 
 export const AddTodo = () => {
+  const [content, setContent] = useState("");
+  const [todos, setTodos] = useRecoilState(todosState);
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && content.trim()) {
+      if (content.length > 20) {
+        alert("할 일은 20글자를 넘길 수 없습니다.");
+        return;
+      }
+
+      const uncompletedTodos = todos.filter((todo) => !todo.isCompleted);
+      if (uncompletedTodos.length >= 10) {
+        alert("처리가 안된 할 일은 10개를 넘을 수 없습니다.");
+        return;
+      }
+
+      const newTodo: ToDo = {
+        id: todos.length ? Math.max(...todos.map((todo) => todo.id)) + 1 : 1,
+        content: content.trim(),
+        isCompleted: false,
+      };
+
+      setTodos([...todos, newTodo]);
+      setContent("");
+    }
+  };
+
   return (
     <Container>
-      <AddInput placeholder="할 일을 입력해 주세요" />
+      <AddInput
+        placeholder="할 일을 입력해 주세요"
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        onKeyDown={handleKeyPress}
+        maxLength={20}
+      />
     </Container>
   );
 };

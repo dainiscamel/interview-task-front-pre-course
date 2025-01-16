@@ -1,12 +1,8 @@
 import styled from "@emotion/styled";
 import Todo from "@/components/pages/todo/Todo";
 import TodoFilter from "./TodoFilter";
-import { useGetTodos } from "@/hooks/queries/useGetTodos";
-import { useUpdateTodo } from "@/hooks/queries/useUpdateTodo";
-import { useDeleteTodo } from "@/hooks/queries/useDeleteTodo";
-import { useRecoilValue } from "recoil";
-import { todoState } from "@/store/atoms/todoAtom";
-import { ToDo } from "@/types/api";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { todoState, todosState } from "@/store/atoms/todoAtom";
 
 const Container = styled.div`
   padding: 32px;
@@ -26,26 +22,22 @@ const TodoCount = styled.div`
 `;
 
 export const TodoList = () => {
-  const { data: todos = [] } = useGetTodos();
-  const { mutate: updateTodo } = useUpdateTodo();
-  const { mutate: deleteTodo } = useDeleteTodo();
+  const [todos, setTodos] = useRecoilState(todosState);
   const filter = useRecoilValue(todoState);
 
   const handleToggle = (id: number) => {
-    const todo = todos.find((todo: ToDo) => todo.id === id);
-    if (todo) {
-      updateTodo({
-        id,
-        todo: { content: todo.content, isCompleted: !todo.isCompleted },
-      });
-    }
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+      )
+    );
   };
 
   const handleDelete = (id: number) => {
-    deleteTodo(id);
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const filteredTodos = todos.filter((todo: ToDo) => {
+  const filteredTodos = todos.filter((todo) => {
     switch (filter) {
       case "To Do":
         return !todo.isCompleted;
@@ -60,10 +52,10 @@ export const TodoList = () => {
     <Container>
       <TodoFilter />
       <TodoCount>총 {todos.length}개</TodoCount>
-      {filteredTodos.map((todo: ToDo) => (
+      {filteredTodos.map((todo) => (
         <Todo
           key={todo.id}
-          content={todo.content}
+          todo={todo}
           onToggle={() => handleToggle(todo.id)}
           onDelete={() => handleDelete(todo.id)}
         />

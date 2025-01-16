@@ -2,7 +2,6 @@ import React from "react";
 import LayoutRecoil from "./layout.recoil";
 import StyleProviders from "@/styles/ThemeProvider";
 import GlobalStyles from "@/styles/GlobalStyles";
-import { MockProvider } from "@/mock/MockProvider";
 import LayoutTanstack from "./layout.tanstack";
 
 export const metadata = {
@@ -20,11 +19,9 @@ export default function RootLayout({
       <body>
         <GlobalStyles />
         <StyleProviders>
-          <MockProvider>
-            <LayoutTanstack>
-              <LayoutRecoil>{children}</LayoutRecoil>
-            </LayoutTanstack>
-          </MockProvider>
+          <LayoutTanstack>
+            <LayoutRecoil>{children}</LayoutRecoil>
+          </LayoutTanstack>
         </StyleProviders>
       </body>
     </html>
