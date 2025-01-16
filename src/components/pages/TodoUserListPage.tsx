@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import styled from "@emotion/styled";
+import { AddTodo } from "../todo/AddTodo";
+import { TodoList } from "../todo/TodoList";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.GREY_LIGHT};
@@ -15,12 +17,6 @@ const Container = styled.div`
 const Wrapper = styled.div`
   width: 737px;
   min-height: 484px;
-  padding: 32px;
-  background-color: ${({ theme }) => theme.colors.WHITE};
-  border-radius: 24px;
-  box-shadow:
-    0px 16px 32px 0px rgba(0, 0, 0, 0.12),
-    0px 0px 6px 0px rgba(0, 0, 0, 0.06);
 `;
 
 interface Props {}
@@ -29,7 +25,8 @@ const TodoUserListPage = ({}: Props) => {
   return (
     <Container>
       <Wrapper>
-        <div>todo</div>
+        <AddTodo />
+        <TodoList />
       </Wrapper>
     </Container>
   );
