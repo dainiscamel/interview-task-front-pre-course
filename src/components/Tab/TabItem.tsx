@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { TodoType } from "@/types/todo";
 
 const TabButton = styled.button<{ isActive: boolean }>`
   padding: 8px 16px;
@@ -13,14 +14,18 @@ const TabButton = styled.button<{ isActive: boolean }>`
 
 interface TabItemProps {
   label: string;
-  value: string;
+  value: TodoType;
   isActive: boolean;
-  onClick: (value: string) => void;
+  onClick: (value: TodoType) => void;
 }
 
 export const TabItem = ({ label, value, isActive, onClick }: TabItemProps) => {
+  const handleClick = () => {
+    onClick(value);
+  };
+
   return (
-    <TabButton isActive={isActive} onClick={() => onClick(value)}>
+    <TabButton isActive={isActive} onClick={handleClick}>
       {label}
     </TabButton>
   );

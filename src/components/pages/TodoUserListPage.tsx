@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import styled from "@emotion/styled";
-import { AddTodo } from "../todo/AddTodo";
-import { TodoList } from "../todo/TodoList";
+import { AddTodo } from "@/components/pages/todo/AddTodo";
+import { TodoList } from "@/components/pages/todo/TodoList";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.GREY_LIGHT};

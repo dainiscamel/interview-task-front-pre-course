@@ -8,7 +8,7 @@ const TabContainer = styled.div`
 
 interface TabProps {
   children: React.ReactNode;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
 }
 
 export const Tab = ({ children, onChange }: TabProps) => {

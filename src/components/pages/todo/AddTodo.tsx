@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 
-const InputContainer = styled.div`
+const Container = styled.div`
   margin-bottom: 24px;
 `;
 
-const Input = styled.input`
+const AddInput = styled.input`
   width: 100%;
   padding: 16px;
   border-radius: 12px;
@@ -18,8 +18,8 @@ const Input = styled.input`
 
 export const AddTodo = () => {
   return (
-    <InputContainer>
-      <Input placeholder="할 일을 입력해 주세요" />
-    </InputContainer>
+    <Container>
+      <AddInput placeholder="할 일을 입력해 주세요" />
+    </Container>
   );
 };
