@@ -1,5 +1,5 @@
 import { http, HttpResponse, PathParams } from "msw";
-import { APIResponse, ToDo, ToDoRequest } from "../types/api";
+import { APIResponse, ToDo, ToDoDto } from "../types/api";
 
 const apiWrapper = <T>(data: T, code = 200, message = ""): APIResponse<T> => {
   return {
@@ -9,7 +9,7 @@ const apiWrapper = <T>(data: T, code = 200, message = ""): APIResponse<T> => {
   };
 };
 
-const fetchToDos = (): ToDo[] => {
+const fetchTodos = (): ToDo[] => {
   try {
     return JSON.parse(localStorage.getItem("todos") ?? "[]");
   } catch (error) {
@@ -18,40 +18,44 @@ const fetchToDos = (): ToDo[] => {
   }
 };
 
-const setToDos = (todos: ToDo[]) => {
+const setTodos = (todos: ToDo[]) => {
   localStorage.setItem("todos", JSON.stringify(todos));
 };
 
-const getToDo = (id: number) => {
-  const todos = fetchToDos();
+const getTodo = (id: number) => {
+  const todos = fetchTodos();
   return todos.find((todo) => todo.id === id);
 };
 
 export const handlers = [
   http.get("/api/todos", () => {
-    return HttpResponse.json(apiWrapper<ToDo[]>(fetchToDos()));
+    return HttpResponse.json(apiWrapper<ToDo[]>(fetchTodos()));
   }),
-  http.post<PathParams, ToDoRequest>("/api/todos", async ({ request }) => {
-    const todos: ToDo[] = fetchToDos();
-    const payload: ToDoRequest = await request.json();
+
+  http.post<PathParams, ToDoDto>("/api/todos", async ({ request }) => {
+    const todos: ToDo[] = fetchTodos();
+    const payload: ToDoDto = await request.json();
     const newId = todos.length ? Math.max(...todos.map(({ id }) => id)) + 1 : 1;
-    const newToDo = {
+    const newTodo = {
       id: newId,
-      ...payload,
+      content: payload.content,
+      isCompleted: false,
     };
-    todos.push(newToDo);
-    setToDos(todos);
-    return HttpResponse.json(apiWrapper<ToDo>(newToDo));
+    todos.push(newTodo);
+    setTodos(todos);
+    return HttpResponse.json(apiWrapper<ToDo>(newTodo));
   }),
+
   http.get<PathParams<"id">>("/api/todos/:id", ({ params }) => {
     return HttpResponse.json(
-      apiWrapper<ToDo | undefined>(getToDo(Number(params.id)))
+      apiWrapper<ToDo | undefined>(getTodo(Number(params.id)))
     );
   }),
-  http.patch<PathParams<"id">, Partial<ToDoRequest>>(
+
+  http.patch<PathParams<"id">, Partial<ToDoDto>>(
     "/api/todos/:id",
     async ({ params, request }) => {
-      const todos: ToDo[] = fetchToDos();
+      const todos: ToDo[] = fetchTodos();
       const payload = await request.json();
       const id = Number(params.id);
 
@@ -65,19 +69,19 @@ export const handlers = [
         ...payload,
       };
 
-      setToDos(todos);
+      setTodos(todos);
       return HttpResponse.json(apiWrapper<ToDo>(todos[index]));
     }
   ),
+
   http.delete<PathParams<"id">>("/api/todos/:id", async ({ params }) => {
-    const todos: ToDo[] = fetchToDos();
+    const todos: ToDo[] = fetchTodos();
     const index = todos.findIndex((todo) => todo.id === Number(params.id));
     if (index < 0) {
       return HttpResponse.json(apiWrapper<void>(undefined, 404, "Not Found"));
-    } else {
-      todos.splice(index, 1);
-      setToDos(todos);
-      return HttpResponse.json(apiWrapper<void>(undefined));
     }
+    todos.splice(index, 1);
+    setTodos(todos);
+    return HttpResponse.json(apiWrapper<void>(undefined));
   }),
 ];

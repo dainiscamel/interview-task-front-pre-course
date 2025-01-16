@@ -1,5 +1,5 @@
 import { TodoApi } from "@/api";
-import { ToDoDto, ToDoRequest } from "@/types/api";
+import { ToDoDto } from "@/types/api";
 
 export const TODO_API = "http://localhost:5173/api";
 
@@ -12,15 +12,7 @@ export const getTodos = async (page: number = 1) => {
   const response = await TodoApi(getTodosRoute());
   const { data } = await response.json();
 
-  const pageSize = 5;
-  const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-
-  return {
-    todos: data.slice(start, end),
-    hasMore: end < data.length,
-    totalItems: data.length,
-  };
+  return data;
 };
 
 export const getTodoById = async (id: number) => {

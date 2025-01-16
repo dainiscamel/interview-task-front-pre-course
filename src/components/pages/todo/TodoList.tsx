@@ -1,16 +1,12 @@
 import styled from "@emotion/styled";
 import Todo from "@/components/pages/todo/Todo";
-import { useState } from "react";
 import TodoFilter from "./TodoFilter";
 import { useGetTodos } from "@/hooks/queries/useGetTodos";
-
-interface TodoItem {
-  id: number;
-  content: string;
-  isCompleted: boolean;
-}
-
-type FilterType = "All" | "To Do" | "Done";
+import { useUpdateTodo } from "@/hooks/queries/useUpdateTodo";
+import { useDeleteTodo } from "@/hooks/queries/useDeleteTodo";
+import { useRecoilValue } from "recoil";
+import { todoState } from "@/store/atoms/todoAtom";
+import { ToDo } from "@/types/api";
 
 const Container = styled.div`
   padding: 32px;
@@ -24,35 +20,47 @@ const Container = styled.div`
   gap: 12px;
 `;
 
+const TodoCount = styled.div`
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.GREY_MEDIUM};
+`;
+
 export const TodoList = () => {
-  const [todos, setTodos] = useState<TodoItem[]>([
-    {
-      id: 1,
-      content: "할일",
-      isCompleted: false,
-    },
-  ]);
-  const todosget = useGetTodos();
-  console.log(todosget);
-  const [currentFilter, setCurrentFilter] = useState<FilterType>("All");
+  const { data: todos = [] } = useGetTodos();
+  const { mutate: updateTodo } = useUpdateTodo();
+  const { mutate: deleteTodo } = useDeleteTodo();
+  const filter = useRecoilValue(todoState);
 
   const handleToggle = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
-      )
-    );
+    const todo = todos.find((todo: ToDo) => todo.id === id);
+    if (todo) {
+      updateTodo({
+        id,
+        todo: { content: todo.content, isCompleted: !todo.isCompleted },
+      });
+    }
   };
 
   const handleDelete = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    deleteTodo(id);
   };
+
+  const filteredTodos = todos.filter((todo: ToDo) => {
+    switch (filter) {
+      case "To Do":
+        return !todo.isCompleted;
+      case "Done":
+        return todo.isCompleted;
+      default:
+        return true;
+    }
+  });
 
   return (
     <Container>
       <TodoFilter />
-      <div>총 {todos.length}개</div>
-      {todos.map((todo) => (
+      <TodoCount>총 {todos.length}개</TodoCount>
+      {filteredTodos.map((todo: ToDo) => (
         <Todo
           key={todo.id}
           content={todo.content}

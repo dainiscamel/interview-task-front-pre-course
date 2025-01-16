@@ -6,7 +6,7 @@ export const useUpdateTodo = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, todo }: { id: number; todo: Partial<ToDoDto> }) =>
+    mutationFn: ({ id, todo }: { id: number; todo: ToDoDto }) =>
       updateTodo(id, todo),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
