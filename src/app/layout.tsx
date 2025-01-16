@@ -3,6 +3,7 @@ import LayoutRecoil from "./layout.recoil";
 import StyleProviders from "@/styles/ThemeProvider";
 import GlobalStyles from "@/styles/GlobalStyles";
 import { MockProvider } from "@/mock/MockProvider";
+import LayoutTanstack from "./layout.tanstack";
 
 export const metadata = {
   title: "myfair front pre-course",
@@ -20,7 +21,9 @@ export default function RootLayout({
         <GlobalStyles />
         <StyleProviders>
           <MockProvider>
-            <LayoutRecoil>{children}</LayoutRecoil>
+            <LayoutTanstack>
+              <LayoutRecoil>{children}</LayoutRecoil>
+            </LayoutTanstack>
           </MockProvider>
         </StyleProviders>
       </body>
