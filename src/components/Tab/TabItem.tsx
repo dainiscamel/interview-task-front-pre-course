@@ -2,9 +2,11 @@ import styled from "@emotion/styled";
 import { TodoType } from "@/types/todo";
 
 const TabButton = styled.button<{ isActive: boolean }>`
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 8px 44.5px;
+  border-radius: 12px;
   border: none;
+  font-weight: 600;
+  font-size: 16px;
   background-color: ${({ isActive, theme }) =>
     isActive ? theme.colors.BLUE_LIGHT : "transparent"};
   color: ${({ isActive, theme }) =>

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Todo from "@/components/pages/todo/Todo";
 import TodoFilter from "./TodoFilter";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { todoState, todosState } from "@/store/atoms/todoAtom";
 
 const Container = styled.div`
@@ -13,12 +13,15 @@ const Container = styled.div`
     0px 0px 6px 0px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  font-size: 20px;
+  font-weight: 400;
 `;
 
 const TodoCount = styled.div`
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.GREY_MEDIUM};
+  font-size: 20px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.BLACK};
+  padding: 16px;
 `;
 
 export const TodoList = () => {
@@ -41,12 +44,7 @@ export const TodoList = () => {
       <TodoFilter />
       <TodoCount>총 {todos.length}개</TodoCount>
       {filteredTodos.map((todo) => (
-        <Todo
-          key={todo.id}
-          todo={todo}
-          // onToggle={() => handleToggle(todo.id)}
-          // onDelete={() => handleDelete(todo.id)}
-        />
+        <Todo key={todo.id} todo={todo} />
       ))}
     </Container>
   );

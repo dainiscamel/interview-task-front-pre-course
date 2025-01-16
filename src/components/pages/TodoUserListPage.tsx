@@ -19,12 +19,21 @@ const Wrapper = styled.div`
   min-height: 484px;
 `;
 
-interface Props {}
+const TodoTitle = styled.h1`
+  color: #333333;
+  font-weight: 700;
+  font-family: "Pretendard";
+  font-size: 56px;
+  line-height: 72px;
+  text-align: center;
+  margin-bottom: 64px;
+`;
 
-const TodoUserListPage = ({}: Props) => {
+const TodoUserListPage = () => {
   return (
     <Container>
       <Wrapper>
+        <TodoTitle>To Do List</TodoTitle>
         <AddTodo />
         <TodoList />
       </Wrapper>

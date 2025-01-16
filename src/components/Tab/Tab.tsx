@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 
 const TabContainer = styled.div`
   display: flex;
+  justify-content: center;
   gap: 8px;
-  padding: 8px;
 `;
 
 interface TabProps {

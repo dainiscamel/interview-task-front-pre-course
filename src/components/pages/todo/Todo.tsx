@@ -10,11 +10,9 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
+  padding: 34px 56px 34px 64px;
   background: ${({ theme }) => theme.colors.WHITE};
   border-radius: 8px;
-  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.06);
-  margin-bottom: 8px;
 `;
 
 const TodoContent = styled.span`
@@ -26,7 +24,7 @@ const DeleteButton = styled.button<{ $isVisible: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
+  padding: 32px 56px 32px 64px
   cursor: pointer;
   background: transparent;
   border: none;

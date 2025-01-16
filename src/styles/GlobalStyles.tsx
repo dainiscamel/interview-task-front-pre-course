@@ -2,6 +2,8 @@
 import { Global, css } from "@emotion/react";
 
 const globalStyles = css`
+  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
   html,
   body,
   div,
@@ -92,7 +94,7 @@ const globalStyles = css`
     font: inherit;
     vertical-align: baseline;
   }
-  /* HTML5 display-role reset for older browsers */
+
   article,
   aside,
   details,
@@ -107,23 +109,42 @@ const globalStyles = css`
   section {
     display: block;
   }
-  /* HTML5 hidden-attribute fix for newer browsers */
+
   *[hidden] {
     display: none;
   }
+
   body {
     line-height: 1;
     background-color: #f0ebf8;
+    font-family:
+      "Pretendard",
+      -apple-system,
+      BlinkMacSystemFont,
+      system-ui,
+      Roboto,
+      "Helvetica Neue",
+      "Segoe UI",
+      "Apple SD Gothic Neo",
+      "Noto Sans KR",
+      "Malgun Gothic",
+      "Apple Color Emoji",
+      "Segoe UI Emoji",
+      "Segoe UI Symbol",
+      sans-serif;
   }
+
   menu,
   ol,
   ul {
     list-style: none;
   }
+
   blockquote,
   q {
     quotes: none;
   }
+
   blockquote:before,
   blockquote:after,
   q:before,
@@ -131,9 +152,14 @@ const globalStyles = css`
     content: "";
     content: none;
   }
+
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+
+  * {
+    box-sizing: border-box;
   }
 `;
 

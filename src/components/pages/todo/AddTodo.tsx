@@ -5,19 +5,23 @@ import { todosState } from "@/store/atoms/todoAtom";
 import { ToDo } from "@/types/todo";
 
 const Container = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 `;
 
 const AddInput = styled.input`
   width: 100%;
-  padding: 16px;
-  border-radius: 12px;
+  height: 92px;
+  padding: 32px;
+  border-radius: 24px;
   border: none;
   background-color: ${({ theme }) => theme.colors.GREY_LIGHT};
   box-shadow:
     0px 16px 32px 0px rgba(0, 0, 0, 0.12),
     0px 0px 6px 0px rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.GREY_MEDIUM};
+  }
 `;
 
 export const AddTodo = () => {
