@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import Todo from "@/components/pages/todo/Todo";
 import { useState } from "react";
 import TodoFilter from "./TodoFilter";
+import { useGetTodos } from "@/hooks/queries/useGetTodos";
 
 interface TodoItem {
   id: number;
@@ -31,6 +32,8 @@ export const TodoList = () => {
       isCompleted: false,
     },
   ]);
+  const todosget = useGetTodos();
+  console.log(todosget);
   const [currentFilter, setCurrentFilter] = useState<FilterType>("All");
 
   const handleToggle = (id: number) => {
