@@ -3,6 +3,8 @@ import { useState } from "react";
 import Checkbox from "@/components/CheckBox/CheckBox";
 import Image from "next/image";
 import { ToDo } from "@/types/todo";
+import { useRecoilState } from "recoil";
+import { todosState } from "@/store/atoms/todoAtom";
 
 const Container = styled.div`
   display: flex;
@@ -34,21 +36,39 @@ const DeleteButton = styled.button<{ $isVisible: boolean }>`
 
 interface TodoProps {
   todo: ToDo;
-  onDelete: () => void;
-  onToggle: () => void;
 }
 
-const Todo = ({ todo, onDelete, onToggle }: TodoProps) => {
+const Todo = ({ todo }: TodoProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [todos, setTodos] = useRecoilState(todosState);
+
+  const handleToggle = (id: number) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+      )
+    );
+  };
+
+  const handleDelete = (id: number) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
 
   return (
     <Container
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Checkbox checked={todo.isCompleted} onChange={onToggle} />
+      <Checkbox
+        checked={todo.isCompleted}
+        onChange={() => handleToggle(todo.id)}
+      />
       <TodoContent>{todo.content}</TodoContent>
-      <DeleteButton type="button" onClick={onDelete} $isVisible={isHovered}>
+      <DeleteButton
+        type="button"
+        onClick={() => handleDelete(todo.id)}
+        $isVisible={isHovered}
+      >
         <Image src="/icons/Close.svg" alt="할 일 삭제" width={14} height={14} />
       </DeleteButton>
     </Container>

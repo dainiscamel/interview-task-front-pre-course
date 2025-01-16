@@ -22,20 +22,8 @@ const TodoCount = styled.div`
 `;
 
 export const TodoList = () => {
-  const [todos, setTodos] = useRecoilState(todosState);
+  const todos = useRecoilValue(todosState);
   const filter = useRecoilValue(todoState);
-
-  const handleToggle = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
-      )
-    );
-  };
-
-  const handleDelete = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
 
   const filteredTodos = todos.filter((todo) => {
     switch (filter) {
@@ -56,8 +44,8 @@ export const TodoList = () => {
         <Todo
           key={todo.id}
           todo={todo}
-          onToggle={() => handleToggle(todo.id)}
-          onDelete={() => handleDelete(todo.id)}
+          // onToggle={() => handleToggle(todo.id)}
+          // onDelete={() => handleDelete(todo.id)}
         />
       ))}
     </Container>
